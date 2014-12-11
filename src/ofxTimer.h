@@ -39,11 +39,15 @@ private:
     bool        paused;
     bool        resumed;
 
+	int			maxCount;
+	int			startCount;
+
 	void update(ofEventArgs &e);
 	
 public:
 	
 	int			count;
+
 	ofEvent <ofEventArgs> TIMER_REACHED;
 	
 	ofxTimer();
@@ -55,9 +59,11 @@ public:
 	//void draw();
 	
 	// ---------------------------------------
+	void setCount(int start, int end);
 	void setTimer(float millSeconds);
     float getTimeLeftInSeconds();
     float getTimeLeftInMillis();
+	int getElapsedTimeInSeconds();
 	void startTimer();
 	void stopTimer();
     void pauseTimer();

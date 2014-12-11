@@ -1,21 +1,21 @@
 /***********************************************************************
- 
- Copyright (c) 2009, Todd Vanderlin, www.vanderlin.cc
- 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
- ***********************************************************************/
+
+Copyright (c) 2009, Todd Vanderlin, www.vanderlin.cc
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+***********************************************************************/
 
 #include "ofxTimer.h"
 
@@ -32,6 +32,8 @@ ofxTimer::~ofxTimer() {
 void ofxTimer::setup(float millSeconds, bool loopTimer) {
 
 	count = 0;
+	maxCount = 0;
+	startCount = 0;
 	bLoop = loopTimer;
 	bPauseTimer = false;
 
@@ -65,7 +67,7 @@ void ofxTimer::resumeTimer() {
 
 // ---------------------------------------
 void ofxTimer::reset() {
-	count = 0;
+	count = startCount;
 	timer = 0;
 	timerStart = 0;
 	bStartTimer = true;
@@ -99,7 +101,10 @@ void ofxTimer::update(ofEventArgs &e) {
 
 		time *= 1000.0;
 		if (time >= delay) {
-			count++;
+
+			if (count<maxCount)
+				count++; else count=startCount;
+
 			if (!bLoop) {
 				bPauseTimer = true;
 				bTimerFinished = true;	//TODO noch kein unterschied zu bPaused;
@@ -131,7 +136,7 @@ float ofxTimer::getTimeLeftInSeconds() {
 
 	if (paused) {
 		time = (ofGetElapsedTimef() - timerStart - ofGetElapsedTimef()
-				+ pauseStartTime);
+			+ pauseStartTime);
 	}
 
 	return (delay / 1000.0) - time;
@@ -154,15 +159,46 @@ float ofxTimer::getTimeLeftInMillis() {
 
 	if (paused) {
 		time = (ofGetElapsedTimef() - timerStart - ofGetElapsedTimef()
-				+ pauseStartTime);
+			+ pauseStartTime);
 	}
 
 	return delay - (time * 1000.0);
 }
 
 // ---------------------------------------
+int ofxTimer::getElapsedTimeInSeconds() {
+
+	if (bTimerFinished)
+		return 0;
+
+	if (bStartTimer) {
+		return delay / 1000.f;
+	}
+
+	float time = ofGetElapsedTimef() - timerStart;
+
+	if (resumed) {
+		time = (ofGetElapsedTimef() - timerStart - pauseTime);
+	}
+
+	if (paused) {
+		time = (ofGetElapsedTimef() - timerStart - ofGetElapsedTimef()
+			+ pauseStartTime);
+	}
+
+	return (int)time;
+}
+
+// ---------------------------------------
 void ofxTimer::setTimer(float millSeconds) {
 	delay = millSeconds;
+}
+
+void ofxTimer::setCount(int start, int end)
+{
+	startCount = start;
+	maxCount = end;
+	count = startCount;
 }
 
 void ofxTimer::startTimer() {
