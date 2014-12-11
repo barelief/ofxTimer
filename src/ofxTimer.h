@@ -31,7 +31,7 @@ private:
 	bool		bStartTimer;
 	bool		bTimerFinished;
 	float		delay;
-	float		timer;
+	//float		timer;
 	float		timerStart;
     // Modifs
     float       pauseStartTime;
@@ -61,8 +61,14 @@ public:
 	// ---------------------------------------
 	void setCount(int start, int end);
 	void setTimer(float millSeconds);
-    float getTimeLeftInSeconds();
+
+public:
+	void setTimeInSeconds(int seconds);
+
+public:
+	float getTimeLeftInSeconds();
     float getTimeLeftInMillis();
+	float getDelay();
 	int getElapsedTimeInSeconds();
 	void startTimer();
 	void stopTimer();

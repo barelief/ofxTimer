@@ -41,7 +41,7 @@ void ofxTimer::setup(float millSeconds, bool loopTimer) {
 	bStartTimer = true;
 	bTimerFinished = false;
 	delay = millSeconds;	// mill seconds
-	timer = 0;
+	// timer = 0;
 	timerStart = 0;
 
 	paused = false;
@@ -68,7 +68,7 @@ void ofxTimer::resumeTimer() {
 // ---------------------------------------
 void ofxTimer::reset() {
 	count = startCount;
-	timer = 0;
+	// timer = 0;
 	timerStart = 0;
 	bStartTimer = true;
 	bTimerFinished = false;
@@ -166,8 +166,8 @@ float ofxTimer::getTimeLeftInMillis() {
 }
 
 // ---------------------------------------
-int ofxTimer::getElapsedTimeInSeconds() {
-
+int ofxTimer::getElapsedTimeInSeconds() 
+{
 	if (bTimerFinished)
 		return 0;
 
@@ -187,6 +187,18 @@ int ofxTimer::getElapsedTimeInSeconds() {
 	}
 
 	return (int)time;
+}
+
+float ofxTimer::getDelay()
+{
+	return delay;
+}
+
+void ofxTimer::setTimeInSeconds (int seconds)
+{
+	// sets the new timer position in seconds (not accurate, but does scheduling well
+	if (!paused || !resumed || !bStartTimer || bTimerFinished)
+		timerStart=ofGetElapsedTimef()-ofClamp(seconds, 0,delay/1000.f);
 }
 
 // ---------------------------------------
