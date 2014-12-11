@@ -1,0 +1,8 @@
+*.make
+functionScheduler/obj/
+functionScheduler/bin/
+functionScheduler/functionScheduler.sdf
+functionScheduler/functionScheduler.sln
+functionScheduler/functionScheduler.vcxproj
+functionScheduler/functionScheduler.vcxproj.filters
+functionScheduler/icon.rc
