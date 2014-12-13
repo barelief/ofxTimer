@@ -6,3 +6,4 @@ functionScheduler/functionScheduler.sln
 functionScheduler/functionScheduler.vcxproj
 functionScheduler/functionScheduler.vcxproj.filters
 functionScheduler/icon.rc
+*.opensdf
