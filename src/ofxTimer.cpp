@@ -224,3 +224,8 @@ void ofxTimer::stopTimer() {
 bool ofxTimer::isTimerFinished() {
 	return bTimerFinished;
 }
+
+bool ofxTimer::isTimerPaused() {
+	return paused;
+}
+

@@ -76,4 +76,5 @@ public:
     void resumeTimer();
 	void loop(bool b);
 	bool isTimerFinished();
+	bool isTimerPaused();
 };
