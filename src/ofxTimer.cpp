@@ -56,13 +56,18 @@ void ofxTimer::setup(float millSeconds, bool loopTimer) {
 void ofxTimer::pauseTimer() {
 	paused = true;
 	pauseStartTime = ofGetElapsedTimef();
+	//pauseStartTime = ;
+	//timerStart=ofGetElapsedTimef()-ofClamp(pauseTime, 0,delay/1000.f);
 }
 
 // ---------------------------------------
 void ofxTimer::resumeTimer() {
 	resumed = true;
 	paused = false;
-	pauseTime = ofGetElapsedTimef() - pauseStartTime;
+	//pauseTime = ofGetElapsedTimef() - pauseStartTime;
+	//setTimeInSeconds(pauseTime)
+	timerStart=ofGetElapsedTimef()-pauseStartTime;
+	pauseTime=timerStart+getElapsedTimeInSeconds();
 }
 
 // ---------------------------------------
@@ -119,6 +124,24 @@ void ofxTimer::update(ofEventArgs &e) {
 	}
 }
 
+
+float ofxTimer::getTimeLeftInDays() {
+	return (int)(getTimeLeftInMillis() / (1000*60*60*24)) % 365;
+}
+
+float ofxTimer::getTimeLeftInHours() {
+	return (int)(getTimeLeftInMillis() / (1000*60*60)) % 24;
+}
+
+float ofxTimer::getTimeLeftInMinutes() {
+	return (int)(getTimeLeftInMillis() / (1000*60)) % 60;
+}
+
+float ofxTimer::getTimeLeftInSeconds2()
+{
+	return (int)(getTimeLeftInMillis() / 1000) % 60;
+}
+
 float ofxTimer::getTimeLeftInSeconds() {
 
 	if (bTimerFinished)
@@ -129,6 +152,7 @@ float ofxTimer::getTimeLeftInSeconds() {
 	}
 
 	float time = ofGetElapsedTimef() - timerStart;
+
 
 	if (resumed) {
 		time = (ofGetElapsedTimef() - timerStart - pauseTime);
@@ -158,8 +182,7 @@ float ofxTimer::getTimeLeftInMillis() {
 	}
 
 	if (paused) {
-		time = (ofGetElapsedTimef() - timerStart - ofGetElapsedTimef()
-			+ pauseStartTime);
+		time = pauseStartTime;
 	}
 
 	return delay - (time * 1000.0);
@@ -178,12 +201,19 @@ int ofxTimer::getElapsedTimeInSeconds()
 	float time = ofGetElapsedTimef() - timerStart;
 
 	if (resumed) {
-		time = (ofGetElapsedTimef() - timerStart - pauseTime);
+		// time = (ofGetElapsedTimef() - timerStart) + pauseTime;
+		// time = pauseTime - timerStart;
+		time = ofGetElapsedTimef() - timerStart - pauseStartTime;
 	}
 
-	if (paused) {
-		time = (ofGetElapsedTimef() - timerStart - ofGetElapsedTimef()
-			+ pauseStartTime);
+	if (paused) 
+	{
+		time=timerStart + pauseStartTime;
+	}
+
+	if (bPauseTimer)
+	{
+		time=timerStart + pauseStartTime;
 	}
 
 	return (int)time;
@@ -199,6 +229,11 @@ void ofxTimer::setTimeInSeconds (int seconds)
 	// sets the new timer position in seconds (not accurate, but does scheduling well
 	if (!paused || !resumed || !bStartTimer || bTimerFinished)
 		timerStart=ofGetElapsedTimef()-ofClamp(seconds, 0,delay/1000.f);
+	if (paused)
+	{
+		// timerStart=ofGetElapsedTimef()-ofClamp(seconds, 0,delay/1000.f);
+		pauseStartTime=timerStart+ofClamp(seconds, 0,delay/1000.f);
+	}
 }
 
 // ---------------------------------------
@@ -226,6 +261,6 @@ bool ofxTimer::isTimerFinished() {
 }
 
 bool ofxTimer::isTimerPaused() {
-	return paused;
+	return bPauseTimer;
 }
 

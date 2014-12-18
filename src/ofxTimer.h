@@ -24,7 +24,6 @@ class ofxTimer {
 	
 private:
 	
-	
 	// timer
 	bool		bLoop;
 	bool		bPauseTimer;
@@ -66,7 +65,11 @@ public:
 	void setTimeInSeconds(int seconds);
 
 public:
+	float getTimeLeftInDays();
+	float getTimeLeftInHours();
+	float getTimeLeftInMinutes();
 	float getTimeLeftInSeconds();
+	float getTimeLeftInSeconds2();
     float getTimeLeftInMillis();
 	float getDelay();
 	int getElapsedTimeInSeconds();

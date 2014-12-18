@@ -82,6 +82,11 @@ void ofApp::keyPressed(int key){
 		timer.reset();
 	}
 
+	if (key=='p')
+	{
+		timer.startTimer();
+	}
+
 	switch (key)
 	{
 	case 1:

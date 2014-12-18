@@ -7,3 +7,10 @@ functionScheduler/functionScheduler.vcxproj
 functionScheduler/functionScheduler.vcxproj.filters
 functionScheduler/icon.rc
 *.opensdf
+countDown/obj/
+countDown/countDown.sln
+countDown/countDown.vcxproj.filters
+countDown/icon.rc
+countDown/countDown.sdf
+countDown/countDown.vcxproj
+countDown/bin/countDown_debug.exp
