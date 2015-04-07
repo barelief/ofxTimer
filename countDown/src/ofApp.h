@@ -1,3 +1,8 @@
+//  ofApp.h
+//  Created by Bartosh Polonski on 04/07/15.
+// 
+
+
 #pragma once
 
 #include "ofMain.h"
